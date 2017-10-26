@@ -17,6 +17,7 @@ from PyQt4.QtCore import *												# for QProcess
 import errno															# temporary for isHttpd
 import subprocess														# for screenshots with cutycapt
 import string															# for input validation
+import ssl
 
 # bubble sort algorithm that sorts an array (in place) based on the values in another array
 # the values in the array must be comparable and in the corresponding positions
@@ -63,19 +64,23 @@ def isHttps(ip, port):
 	try:
 		req = urllib2.Request('https://'+ip+':'+port)
 		req.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0 Iceweasel/22.0')
-		r = urllib2.urlopen(req, timeout=5)
+		r = urllib2.urlopen(req, context=ssl._create_unverified_context(), timeout=5)
 #		print '\nresponse code: ' + str(r.code)
 #		print '\nresponse content: ' + str(r.read())
 		return True
 
 	except:	
-		reason = str(sys.exc_info()[1].reason)
-#		print reason
-#		if 'Interrupted system call' in reason:
-#			print 'caught exception. retry?'
-			
-		if reason == 'Forbidden':
-			return True	
+		try:
+			reason = str(sys.exc_info()[1].reason)
+	#		print reason
+	#		if 'Interrupted system call' in reason:
+	#			print 'caught exception. retry?'
+				
+			if reason == 'Forbidden':
+				return True	
+		except:
+			pass
+
 		return False
 
 		
@@ -264,22 +269,22 @@ class Screenshooter(QtCore.QThread):
 		self.processing = True
 
 		for i in range(0, len(self.urls)):
-			try:
-				url = self.urls.pop(0)
-				outputfile = getTimestamp()+'-screenshot-'+url.replace(':', '-')+'.png'
-				ip = url.split(':')[0]
-				port = url.split(':')[1]
+			# try:
+			url = self.urls.pop(0)
+			outputfile = getTimestamp()+'-screenshot-'+url.replace(':', '-')+'.png'
+			ip = url.split(':')[0]
+			port = url.split(':')[1]
 #				print '[+] Taking screenshot of '+url
-				# add to db
-				
-				if isHttps(ip,port):
-					self.save("https://"+url, ip, port, outputfile)
-				else:
-					self.save("http://"+url, ip, port, outputfile)
+			# add to db
+			
+			if isHttps(ip,port):
+				self.save("https://"+url, ip, port, outputfile)
+			else:
+				self.save("http://"+url, ip, port, outputfile)
 
-			except:
-				print '\t[-] Unable to take the screenshot. Moving on..'
-				continue				
+			# except:
+			# 	print '\t[-] Unable to take the screenshot. Moving on..'
+				# continue				
 				
 		self.processing = False
 		

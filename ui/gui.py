@@ -274,8 +274,13 @@ class Ui_MainWindow(object):
 		self.actionOpen.setObjectName(_fromUtf8("actionOpen"))
 		self.actionSave = QtGui.QAction(MainWindow)
 		self.actionSave.setObjectName(_fromUtf8("actionSave"))
+		
 		self.actionImportNmap = QtGui.QAction(MainWindow)
 		self.actionImportNmap.setObjectName(_fromUtf8("actionImportNmap"))
+		
+		self.actionImportNmapDir = QtGui.QAction(MainWindow)
+		self.actionImportNmapDir.setObjectName(_fromUtf8("actionImportNmapDir"))
+		
 		self.actionSaveAs = QtGui.QAction(MainWindow)
 		self.actionSaveAs.setObjectName(_fromUtf8("actionSaveAs"))
 		self.actionNew = QtGui.QAction(MainWindow)
@@ -289,6 +294,7 @@ class Ui_MainWindow(object):
 		self.menuFile.addSeparator()
 		self.menuFile.addAction(self.actionAddHosts)
 		self.menuFile.addAction(self.actionImportNmap)
+		self.menuFile.addAction(self.actionImportNmapDir)
 		self.menuFile.addSeparator()
 		self.menuFile.addAction(self.actionExit)
 		self.menubar.addAction(self.menuFile.menuAction())
@@ -341,9 +347,15 @@ class Ui_MainWindow(object):
 		self.actionSave.setText(QtGui.QApplication.translate("MainWindow", "Save", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionSave.setToolTip(QtGui.QApplication.translate("MainWindow", "Save the current project", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionSave.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+		
 		self.actionImportNmap.setText(QtGui.QApplication.translate("MainWindow", "Import nmap", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionImportNmap.setToolTip(QtGui.QApplication.translate("MainWindow", "Import an nmap xml file", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionImportNmap.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+I", None, QtGui.QApplication.UnicodeUTF8))
+
+		self.actionImportNmapDir.setText(QtGui.QApplication.translate("MainWindow", "Import nmap directory", None, QtGui.QApplication.UnicodeUTF8))
+		self.actionImportNmapDir.setToolTip(QtGui.QApplication.translate("MainWindow", "Import multiple nmap files", None, QtGui.QApplication.UnicodeUTF8))
+		self.actionImportNmapDir.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+D", None, QtGui.QApplication.UnicodeUTF8))
+
 		self.actionSaveAs.setText(QtGui.QApplication.translate("MainWindow", "Save As", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
 		self.actionNew.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))

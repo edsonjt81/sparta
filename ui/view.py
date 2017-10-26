@@ -116,6 +116,7 @@ class View(QtCore.QObject):
 		self.connectSaveProjectAs()
 		self.connectAddHosts()
 		self.connectImportNmap()
+		self.connectImportNmapDir()
 		self.connectSettings()
 		self.connectHelp()		
 		self.connectAppExit()
@@ -387,6 +388,29 @@ class View(QtCore.QObject):
 		self.ui.actionImportNmap.triggered.connect(self.importNmap)
 
 	def importNmap(self):
+		self.ui.statusbar.showMessage('Importing nmap xml..', msecs=1000)
+		filename = QtGui.QFileDialog.getOpenFileName(self.ui.centralwidget, 'Choose nmap file', self.controller.getCWD(), filter='XML file (*.xml)')
+		
+		if not filename == '':
+
+			if not os.access(filename, os.R_OK):						# check for read permissions on the xml file
+				print '[-] Insufficient permissions to read this file.'
+				reply = QtGui.QMessageBox.warning(self.ui.centralwidget, 'Warning', "You don't have the necessary permissions to read this file.","Ok")
+				return
+
+			self.importProgressWidget.reset('Importing nmap..')	
+			self.controller.nmapImporter.setFilename(str(filename))
+			self.controller.nmapImporter.start()
+			self.controller.copyNmapXMLToOutputFolder(str(filename))
+			self.importProgressWidget.show()
+			
+		else:
+			print '\t[-] No file chosen..'		
+
+	def connectImportNmapDir(self):
+		self.ui.actionImportNmapDir.triggered.connect(self.importNmapDir)
+
+	def importNmapDir(self):
 		self.ui.statusbar.showMessage('Importing nmap xml..', msecs=1000)
 		directory_name = QtGui.QFileDialog.getExistingDirectory(self.ui.centralwidget, 'Choose nmap directory', self.controller.getCWD())
 	   

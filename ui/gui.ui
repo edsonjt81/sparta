@@ -280,6 +280,14 @@
     <string>Import an nmap xml file</string>
    </property>
   </action>
+  <action name="actionImportNmapDir">
+   <property name="text">
+    <string>Import nmap Directory</string>
+   </property>
+   <property name="toolTip">
+    <string>Import multiples nmap</string>
+   </property>
+  </action>
   <action name="actionSaveAs">
    <property name="text">
     <string>Save As</string>
